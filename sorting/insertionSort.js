@@ -4,13 +4,13 @@ function insertionSort(arr) {
     let smallest = Infinity;
     let smallidx;
     for (let j = i; j < arr.length; j++) {
-        if (arr[j] < smallest) {
-            smallest = arr[j];
-            smallidx = j;
-        }
+      if (arr[j] < smallest) {
+        smallest = arr[j];
+        smallidx = j;
+      }
     }
     const temp = arr[i];
     arr[i] = arr[smallidx];
     arr[smallidx] = temp;
-}
+  }
 }
