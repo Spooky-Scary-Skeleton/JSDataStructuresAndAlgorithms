@@ -22,8 +22,8 @@ BinarySerachTree
 - insert, find time complexity: average - O(logn); worst - O(n)
 
 Traversing a tree
-- Breadth-first Search
-- Deapth-first Search
+- Breadth-first Search -> time complexity O(n)
+- Deapth-first Search -> time complexity O(n)
   - preOrder
   - inOrder
   - postOrder
