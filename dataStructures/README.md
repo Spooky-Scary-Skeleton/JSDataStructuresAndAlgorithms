@@ -27,3 +27,12 @@ Traversing a tree
   - preOrder
   - inOrder
   - postOrder
+
+MaxBinaryHeap
+- can be easily represented with array
+- Every parent node has at most two child nodes
+- The value of parent node is ALWAYS greater than child nodes
+- In a max Binary Heap the parent is greater than the children, but there are no guarantees between sibling nodes
+- A binary heap is as compact as possible. All the children of each node are filled out first.
+- insert => use bubble-up
+- extractMax => use sinking-down
