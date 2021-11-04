@@ -40,6 +40,8 @@ class Queue {
     }
     this.head = poppedHead.next;
     this.length--;
+
+    return poppedHead.value;
   }
 }
 
@@ -56,3 +58,5 @@ queue.dequeue();
 queue.dequeue();
 queue.dequeue();
 queue.dequeue();
+
+export default Queue;
