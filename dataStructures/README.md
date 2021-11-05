@@ -30,9 +30,17 @@ Traversing a tree
 
 MaxBinaryHeap
 - can be easily represented with array
+- child node index = 2n + 1, 2n + 2
 - Every parent node has at most two child nodes
 - The value of parent node is ALWAYS greater than child nodes
 - In a max Binary Heap the parent is greater than the children, but there are no guarantees between sibling nodes
 - A binary heap is as compact as possible. All the children of each node are filled out first.
 - insert => use bubble-up
 - extractMax => use sinking-down
+
+HashTable
+- Prime number in the hash is helpful in spreading out the keys more uniformly.
+- worst case time complexity is O(n), average is O(1);
+
+Graph
+- 
