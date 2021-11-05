@@ -6,21 +6,65 @@ class graph extends AdjacencyListGraph {
   }
 
   depthFirstRecursive(start) {
-    const result = [start];
+    const result = [];
+    const visited = {};
 
-    const traverse = (start, resultArray) => {
+    const traverse = (start) => {
+      visited[start] = true;
+      result.push(start);
       const neighborList = this.adjacencyList[start];
       if (neighborList.length > 0) {
         for (const neighbor of neighborList) {
-          if (!!!resultArray.includes(neighbor)) {
-            resultArray.push(neighbor);
-            traverse(neighbor, resultArray);
+          if (visited[neighbor] === undefined) {
+            traverse(neighbor);
           }
         }
       }
     };
 
-    traverse(start, result);
+    traverse(start);
+
+    return result;
+  }
+
+  depthFirstIterative(start) {
+    const stack = [start];
+    const visited = { [start]: true };
+    const result = [];
+
+    while (stack.length > 0) {
+      const currentNode = stack.pop();
+      const neighborList = this.adjacencyList[currentNode];
+
+      result.push(currentNode);
+
+      for (const neighbor of neighborList) {
+        if (!!!visited[neighbor]) {
+          visited[neighbor] = true;
+          stack.push(neighbor);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  breadthFirstSearch(start) {
+    const queue = [start];
+    const visited = { [start]: true };
+    const result = [];
+
+    while (queue.length > 0) {
+      const currentNode = queue.shift();
+      const neighborList = this.adjacencyList[currentNode];
+      result.push(currentNode);
+      for (const neighbor of neighborList) {
+        if (!!!visited[neighbor]) {
+          visited[neighbor] = true;
+          queue.push(neighbor);
+        }
+      }
+    }
 
     return result;
   }
@@ -43,6 +87,7 @@ graphTest.addEdge("D", "E");
 graphTest.addEdge("D", "F");
 graphTest.addEdge("E", "F");
 graphTest.depthFirstRecursive("A"); // [A, B, D, E, C, F]
+graphTest.breadthFirstSearch("A"); //[A, B, C, D, E, F]
 
 //          A
 //        /   \
