@@ -1,111 +1,120 @@
+//https://www.youtube.com/watch?v=jDM6_TnYIqE&ab_channel=AbdulBari
+//https://www.geeksforgeeks.org/avl-tree-set-1-insertion/?ref=lbp
+
+class Node {
+  constructor(d) {
+    this.key = d;
+    this.height = 1;
+    this.left = null;
+    this.right = null;
+  }
+}
+
 class AVLTree {
   constructor() {
     this.root = null;
   }
 
-  insert(value) {
-    const newNode = new Node(value);
-    const callStack = [];
-    let currentNode = this.root;
-    let direction;
-    let directionString = "";
-
-    if (currentNode === null) {
-      this.root = newNode;
-      return;
-    }
-
-    while (currentNode) {
-      callStack.push([currentNode, direction]);
-      if (currentNode.data > data) {
-        direction = "l";
-        if (currentNode.left === null) {
-          currentNode.left = newNode;
-          callStack.push([newNode, direction]);
-          return;
-        }
-        currentNode = currentNode.left;
-      } else {
-        direction = "r";
-        if (currentNode.right === null) {
-          currentNode.right = newNode;
-          callStack.push([newNode, direction]);
-          return;
-        }
-        currentNode = currentNode.right;
-      }
-    }
-
-    while (callStack.length) {
-      const currentStack = callStack.pop()[0];
-      const currentNode = currentStack[0];
-      directionString += currentStack[1];
-      let balanceFactor;
-      let leftHeight;
-      let rightHeight;
-
-      if (currentNode.left) {
-        leftHeight = currentNode.left.height + 1;
-      } else {
-        leftHeight = 0;
-      }
-
-      if (currentNode.right) {
-        rightHeight = currentNode.right.height + 1;
-      } else {
-        leftHeight = 0;
-      }
-
-      currentNode.height = Math.max(leftHeight, rightHeight);
-      balanceFactor = Math.abs(leftHeight - rightHeight);
-      if (balanceFactor > 1) {
-        const insertDirection = directionString[-1] + directionString[-2];
-        const grandParent = callStack[-1];
-        const directChildNode = currentNode
-        let grandParentDirection;
-        let grandParentNode;
-        if (grandParent) {
-          grandParentDirection = grandParent[1];
-          grandParentNode = grandParent[0];
-        }
-        if (insertDirection === "ll") {
-          if (grandParentDirection = 'l') {
-            grandParentNode.left = 
-            
-          }
-        }
-        if (insertDirection === "rr") {
-        }
-        if (insertDirection === "lr") {
-        }
-        if (insertDirection === "rl") {
-        }
-      }
-    }
+  height(N) {
+    if (N === null) return 0;
+    return N.height;
   }
 
-  // updateHeight(node) {
-  //   let leftHeight;
-  //   let rightHeight;
-  //   const currentNode = node;
+  max(a, b) {
+    return a > b ? a : b;
+  }
 
-  //   if (currentNode.left) {
-  //     this.updateHeight(currentNode.left);
-  //   }
+  rightRotate(y) {
+    let x = y.left;
+    let T2 = x.right;
 
-  //   if (currentNode.right) {
-  //     this.updateHeight(currentNode.right);
-  //   }
-  // }
-}
+    x.right = y;
+    y.left = T2;
 
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.left = null;
-    this.right = null;
-    this.height = 0;
+    //update hieghts;
+    y.height = this.max(this.height(y.left), this.height(y.right)) + 1;
+    x.height = this.max(this.height(x.left), this.height(x.right)) + 1;
+
+    //return new root
+    return x;
+  }
+
+  leftRotate(y) {
+    let x = y.right;
+    let T2 = x.left;
+
+    x.left = y;
+    y.right = T2;
+
+    y.height = this.max(this.height(y.left), this.height(y.right)) + 1;
+    x.height = this.max(this.height(x.left), this.height(x.right)) + 1;
+
+    //return new root
+    return x;
+  }
+
+  getBalance(N) {
+    if (N === null) return 0;
+
+    return this.height(N.left) - this.height(N.right);
+  }
+
+  insert(node, key) {
+    //recursive BST insertion
+    if (node === null) return new Node(key);
+
+    if (key < node.key) {
+      node.left = this.insert(node.left, key);
+    } else if (key > node.key) {
+      node.right = this.insert(node.right, key);
+    } else {
+      return node; //duplicate keys not allowed
+    }
+
+    //update height
+    node.height = 1 + this.max(this.height(node.left), this.height(node.right));
+
+    //get the balance factor
+    let balance = this.getBalance(node);
+
+    //left left
+    if (balance > 1 && key < node.left.key) {
+      return this.rightRotate(node);
+    }
+
+    //right right
+    if (balance < -1 && key > node.right.key) {
+      return this.leftRotate(node);
+    }
+
+    //left right
+    if (balance > 1 && key > node.left.key) {
+      node.left = this.leftRotate(node.left);
+      return this.rightRotate(node);
+    }
+
+    //right left
+    if (balance < -1 && key < node.right.key) {
+      node.right = this.rightRotate(node.right);
+      return this.leftRotate(node);
+    }
+
+    return node;
   }
 }
 
-const test = new AVLTree();
+/* Constructing tree given in the above figure */
+tree.root = tree.insert(tree.root, 10);
+tree.root = tree.insert(tree.root, 20);
+tree.root = tree.insert(tree.root, 30);
+tree.root = tree.insert(tree.root, 40);
+tree.root = tree.insert(tree.root, 50);
+tree.root = tree.insert(tree.root, 25);
+
+/* The constructed AVL Tree would be
+            30
+            / \
+           20 40
+          / \   \
+         10 25  50
+*/

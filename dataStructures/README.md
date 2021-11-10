@@ -42,5 +42,7 @@ HashTable
 - Prime number in the hash is helpful in spreading out the keys more uniformly.
 - worst case time complexity is O(n), average is O(1);
 
-Graph
-- 
+AVLTree
+- self balancing tree
+- tree's height is always O(logn)
+- so insertion and search is also always O(logn)
